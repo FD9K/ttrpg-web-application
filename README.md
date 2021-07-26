@@ -41,6 +41,7 @@ npm run build
 The `/src/routes` directory generates the web application's structure based upon its own. As such, right now, the structure of the web application is as follows:
 
 /   --- landing page for the app
+```
 /app/:instanceId   --- actual display for the combat/campaign; basically, this serves as the party's collective main screen.
 /compendium   --- references; I don't know that we need this user-facing per se since the Wiki will be the SoT on that front. 
   /abilities
@@ -57,3 +58,4 @@ The `/src/routes` directory generates the web application's structure based upon
   /:userId   --- user-specific profile page.
     /characters   --- list of user's character creations.
       /:characterID   --- character sheet. 
+```
