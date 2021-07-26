@@ -14,7 +14,6 @@ export async function login(method: string, options: AuthenticationOptions): Pro
         const { user } = userCredential;
         return user;
       } catch (error) {
-        const { code, message } = error;
         return error;
       }
     default:
@@ -39,8 +38,9 @@ export async function register(method: string, options: AuthenticationOptions): 
         const { user } = userCredential;
         return user;
       } catch (error) {
-        const { code, message } = error;
         return error;
       }
+    default:
+      return "not supported";
   }
 }
