@@ -1,0 +1,2 @@
+<!-- somewhat confusingly named, I'll confess. The app runs the in the moment combat, rolls, etc. and serves as a virtual, shared-screen style tabletop with game information. -->
+<!-- this, with the possible exception of the character sheet, will be the most complex piece of this application. -->

@@ -1,0 +1,1 @@
+<!-- best not to think of the compendium as game rules or item docs, per se -- that work belongs to the wiki. Unclear if we even really need these routes to be frontend facing so much as quick data fetch routes to manage the ruleset application-wide. -->
