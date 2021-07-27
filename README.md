@@ -40,6 +40,7 @@ npm run build
 ## Custom Routing Structure
 The `/src/routes` directory generates the web application's structure based upon its own. As such, right now, the structure of the web application is as follows:
 
+```
 /   --- landing page for the app
 ```
 /app/:instanceId   --- actual display for the combat/campaign; basically, this serves as the party's collective main screen.
