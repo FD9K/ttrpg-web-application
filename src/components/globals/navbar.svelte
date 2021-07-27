@@ -18,9 +18,9 @@
         <li><a href="/">Tools</a></li>
         <div class="uk-navbar-dropdown">
           <ul class="uk-nav uk-navbar-dropdown-nav">
-            <li><a href="/user/{$authStore.user.uid}">My Profile</a></li>
-            <li><a href="/user/{$authStore.user.uid}/characters">My Characters</a></li>
-            <li><a href="/party">My Campaigns</a></li>
+            <li><a href="/users/{$authStore.user.uid}">My Profile</a></li>
+            <li><a href="/users/{$authStore.user.uid}/characters">My Characters</a></li>
+            <li><a href="/campaigns">My Campaigns</a></li>
             <li><a href="/" on:click={logOut}>Log Out</a></li>
           </ul>
         </div>
@@ -35,12 +35,12 @@
     {:else}
       <ul class="uk-navbar-nav">
         <div class="uk-navbar-item">
-          <a href="/user/register">
+          <a href="/users/register">
             <button class="uk-button uk-button-default">Sign Up</button>
           </a>
         </div>
         <div class="uk-navbar-item">
-          <a href="/user/login">Log In</a>
+          <a href="/users/login">Log In</a>
         </div>
       </ul>
     {/if}
