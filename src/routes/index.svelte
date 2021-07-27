@@ -1,1 +1,9 @@
-<h1>Welcome to the TTRPG!</h1>
+<script>
+
+</script>
+
+<style>
+
+</style>
+
+<h1>Welcome to the server!</h1>
