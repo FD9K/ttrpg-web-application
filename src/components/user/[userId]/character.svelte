@@ -5,21 +5,22 @@ import type { Character } from "../../../global";
 export let characterId: string;
 let character: Character;
 $: character;
+
 onMount(async () => {
-  console.log("character, comin' right up", characterId);
   character = await getCharacter(characterId);
-  console.log(character);
 });
 
 </script>
 
 <style>
-
+  .uk-card {
+    cursor: pointer;
+  }
 </style>
 
 {#if character}
 <div class="uk-container">
-  <div class="uk-card uk-card-default uk-card-body">
+  <div class="uk-card uk-card-default uk-card-body uk-card-hover">
     <h5>
       {#if character.name}
         {character.name}

@@ -1,7 +1,7 @@
 
 import { auth, firestore } from "./config";
 import firebase from "firebase";
-import type { UserInformation, Character } from "../../global";
+import type { UserInformation, Character, Campaign } from "../../global";
 
 // all of these require certain rules to fetch, so make sure the user is authenticated where necessary. 
 // typing this is such a huge pain in the ass that I won't 
@@ -81,13 +81,18 @@ export async function getCharacter(characterId: string): Promise<any> {
     .get();
   
   const character = characterDocument.data();
-  console.log(character);
   return character;
 }
 
-// export async function getCampaign(campaignId: string): Promise<Campaign> {
-
-// }
+export async function getCampaign(campaignId: string): Promise<any> {
+  const campaignDocument = await firestore.collection("campaigns")
+    .doc(campaignId)
+    .get();
+  
+  const campaign = campaignDocument.data();
+  console.log(campaign);
+  return campaign;
+}
 
 // export async function updateCampaign(campaignId: string): Promise<Campaign> {
 
@@ -97,9 +102,29 @@ export async function getCharacter(characterId: string): Promise<any> {
 
 // }
 
-// export async function createCampaign(): Promise<Campaign> {
+export async function createCampaign(): Promise<Campaign> {
+  const { currentUser } = auth;
+  const { uid } = currentUser;
+
+  const boilerplateCampaign: Campaign = {
+    creationDate: new Date(),
+    creatorId: uid,
+    playerIds: [],
+    concluded: false,
+  }
+
+  const newCampaign = await firestore.collection("campaigns")
+    .add(boilerplateCampaign);
   
-// }
+  const { id } = newCampaign;
+  await firestore.collection("users")
+    .doc(uid)
+    .update({
+      campaigns: firebase.firestore.FieldValue.arrayUnion(id)
+    });
+  
+  return { ...boilerplateCampaign, id };
+}
 
 export async function createCharacter(): Promise<Character> {
   const { currentUser } = auth;

@@ -2,16 +2,18 @@
 <!-- one user's personal page. Contains their active campaigns, their characters, etc. -->
 <script lang="ts">
 import { page } from "$app/stores";
-import { getUser, createCharacter } from "$lib/fire/firestore";
+import { getUser, createCharacter, createCampaign } from "$lib/fire/firestore";
 import { onMount } from "svelte";
 import { authStore } from "../../../stores";
 import CharacterCard from "../../../components/user/[userId]/character.svelte";
+import CampaignCard from "../../../components/user/[userId]/campaign.svelte";
 
 let currentUser;
 let displayUser;
 let isUser: boolean = false;
 let isEditing = false;
 let characterIds: string[] = [];
+let campaignIds: string[] = [];
 
 onMount(async () => {
   const { userId } = $page.params;
@@ -19,6 +21,7 @@ onMount(async () => {
   // display the user that has loaded from the page params. 
   displayUser = user;
   characterIds = user.characters;
+  campaignIds = user.campaigns;
   // now check to see if that's who the current user is.
   if ($authStore.user.uid === userId) {
     isUser = true;
@@ -38,11 +41,12 @@ function triggerEdit() {
 // both of these are actually going to generate records in the DB, the actual "creation" flow is actually just gonna be a series of updates - possibly based on firebase db in the longrun to make sure the complexity of the form is complemented by an inability to  lose the data.
 async function newCharacter() {
   const character = await createCharacter();
-  displayUser.characters.push(character);
+  characterIds.push(character.id);
 }
 
-async function createCampaign() {
-
+async function newCampaign() {
+  const campaign = await createCampaign();
+  campaignIds.push(campaign.id);
 }
 
 </script>
@@ -101,13 +105,15 @@ async function createCampaign() {
       <div class="uk-card uk-card-default uk-card-body uk-card-large">
         <h5 class="uk-card-title">Campaigns</h5>
         {#if isUser}
-          <button class="uk-button uk-button-primary uk-button-small">Start a Campaign</button>
+          <button class="uk-button uk-button-primary uk-button-small" on:click={newCampaign}>Start a Campaign</button>
         {/if}
         <hr />
         {#if displayUser.campaigns.length > 0} 
-          {#each displayUser.campaigns as campaign}
-            { campaign }
-          {/each}
+          <div class="uk-flex uk-flex-left uk-flex-wrap uk-flex-wrap-stretch">
+            {#each campaignIds as campaignId}
+              <CampaignCard campaignId={campaignId} />
+            {/each}
+          </div>
         {:else}
           No campaigns yet? What are we supposed to do with our lives?
         {/if}
