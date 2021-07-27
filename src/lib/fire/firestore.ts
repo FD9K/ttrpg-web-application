@@ -164,3 +164,16 @@ export async function createCharacter(): Promise<Character> {
   // look at other campaigns NOT market "private"
   
   // receive invites for ONLY themselves
+
+  export async function searchUsers(searchTerm: string): Promise<any[]> {
+    const results = [];
+    const displayNameRef = await firestore.collection("users")
+      .where("displayName", "==", searchTerm)
+      .get()
+    displayNameRef.forEach((hit) => results.push(hit.data()));
+    const emailRef = await firestore.collection("users")
+      .where("email", "==", searchTerm)
+      .get();
+    emailRef.forEach((hit) => results.push(hit.data()));
+    return results;
+  }
