@@ -23,6 +23,7 @@ export async function login(method: string, options: AuthenticationOptions): Pro
 
 export async function logout() {
   try {
+    console.log("made it this far, right?");
     await auth.signOut();
   } catch (error) {
     console.log("an error occurred while signing out: ", error);
