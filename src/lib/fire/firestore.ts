@@ -1,15 +1,7 @@
 
 import { auth, firestore } from "./config";
-
-type UserInformation = {
-  uid: string;
-  characters: string[];
-  campaigns: string[];
-  registrationDate: Date;
-  email: string;
-  displayName: string;
-  photoURL: string;
-}
+import firebase from "firebase";
+import type { UserInformation, Character } from "../../global";
 
 // all of these require certain rules to fetch, so make sure the user is authenticated where necessary. 
 // typing this is such a huge pain in the ass that I won't 
@@ -59,7 +51,6 @@ export async function deleteUser(): Promise<void> {
 }
 
 export async function createUser(): Promise<UserInformation> {
-  console.log("you know, it happened.");
   // this will always trigger during registration. So, only function on an authed call. 
   const { currentUser } = auth;
   const { uid, email, displayName, photoURL } = currentUser;
@@ -84,9 +75,15 @@ export async function createUser(): Promise<UserInformation> {
   }
 }
 
-// export async function getCharacter(characterId: string): Promise<Character> {
-
-// }
+export async function getCharacter(characterId: string): Promise<any> {
+  const characterDocument = await firestore.collection("characters")
+    .doc(characterId)
+    .get();
+  
+  const character = characterDocument.data();
+  console.log(character);
+  return character;
+}
 
 // export async function getCampaign(campaignId: string): Promise<Campaign> {
 
@@ -104,9 +101,28 @@ export async function createUser(): Promise<UserInformation> {
   
 // }
 
-// export async function createCharacter(character): Promise<Character> {
-
-// }
+export async function createCharacter(): Promise<Character> {
+  const { currentUser } = auth;
+  const { uid } = currentUser;
+  const boilerplateCharacter: Character = {
+    creationDate: new Date(),
+    creatorId: uid,
+    abilities: [],
+    name: "",
+  }
+  const document = await firestore.collection("characters")
+    .add(boilerplateCharacter);
+  // get the firestore-generated id;
+  const { id } = document;
+  // now update the user with their new character. 
+  await firestore.collection("users")
+    .doc(uid)
+    .update({
+      characters: firebase.firestore.FieldValue.arrayUnion(id)
+    });
+  
+  return { ...boilerplateCharacter, id };
+}
 
 // export async function updateCharacter(characterId: string): Promise<Character> {
 
