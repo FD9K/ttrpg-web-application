@@ -1,7 +1,8 @@
 
 import { auth, firestore } from "./config";
 import firebase from "firebase";
-import type { UserInformation, Character, Campaign } from "../../global";
+import type { UserInformation, Character, Campaign, Invite } from "../../global";
+import { v4 } from "uuid";
 
 // all of these require certain rules to fetch, so make sure the user is authenticated where necessary. 
 // typing this is such a huge pain in the ass that I won't 
@@ -111,19 +112,20 @@ export async function createCampaign(): Promise<Campaign> {
     creatorId: uid,
     playerIds: [],
     concluded: false,
+    id: v4(),
   }
 
-  const newCampaign = await firestore.collection("campaigns")
-    .add(boilerplateCampaign);
+  await firestore.collection("campaigns")
+    .doc(boilerplateCampaign.id)
+    .set(boilerplateCampaign);
   
-  const { id } = newCampaign;
   await firestore.collection("users")
     .doc(uid)
     .update({
-      campaigns: firebase.firestore.FieldValue.arrayUnion(id)
+      campaigns: firebase.firestore.FieldValue.arrayUnion(boilerplateCampaign.id)
     });
   
-  return { ...boilerplateCampaign, id };
+  return boilerplateCampaign;
 }
 
 export async function createCharacter(): Promise<Character> {
@@ -134,19 +136,20 @@ export async function createCharacter(): Promise<Character> {
     creatorId: uid,
     abilities: [],
     name: "",
+    id: v4(),
   }
   const document = await firestore.collection("characters")
-    .add(boilerplateCharacter);
+    .doc(boilerplateCharacter.id)
+    .set(boilerplateCharacter);
   // get the firestore-generated id;
-  const { id } = document;
   // now update the user with their new character. 
   await firestore.collection("users")
     .doc(uid)
     .update({
-      characters: firebase.firestore.FieldValue.arrayUnion(id)
+      characters: firebase.firestore.FieldValue.arrayUnion(boilerplateCharacter.id)
     });
   
-  return { ...boilerplateCharacter, id };
+  return boilerplateCharacter;
 }
 
 // export async function updateCharacter(characterId: string): Promise<Character> {
@@ -165,15 +168,53 @@ export async function createCharacter(): Promise<Character> {
   
   // receive invites for ONLY themselves
 
-  export async function searchUsers(searchTerm: string): Promise<any[]> {
-    const results = [];
-    const displayNameRef = await firestore.collection("users")
-      .where("displayName", "==", searchTerm)
-      .get()
-    displayNameRef.forEach((hit) => results.push(hit.data()));
-    const emailRef = await firestore.collection("users")
-      .where("email", "==", searchTerm)
-      .get();
-    emailRef.forEach((hit) => results.push(hit.data()));
-    return results;
+export async function searchUsers(searchTerm: string): Promise<any[]> {
+  const results = [];
+  const displayNameRef = await firestore.collection("users")
+    .where("displayName", "==", searchTerm)
+    .get()
+  displayNameRef.forEach((hit) => results.push(hit.data()));
+  const emailRef = await firestore.collection("users")
+    .where("email", "==", searchTerm)
+    .get();
+  emailRef.forEach((hit) => results.push(hit.data()));
+  return results;
+}
+
+export async function inviteUser(uid: string, campaignId: string): Promise<void> {
+  const invite: Invite = {
+    from: auth.currentUser.uid,
+    to: uid,
+    denied: false,
+    accepted: false,
+    sentOn: new Date(),
+    campaignId,
+    id: v4(),
   }
+  console.log({ invite });
+  await firestore.collection("invites")
+    .doc(invite.id)
+    .set(invite);
+}
+
+// 1. gets an invite document.
+// 2. updates a the campaign with the player.
+// 3. deletes the invite.
+export async function acceptInvite(inviteId: string): Promise<void> {
+  const { currentUser } = auth;
+  const { uid } = currentUser;
+  const inviteDocument = await firestore.collection("invites")
+    .doc(inviteId)
+    .get();
+  const invite = inviteDocument.data();
+  const { campaignId } = invite;
+  await firestore.collection("campaigns")
+    .doc(campaignId)
+    .update({
+      playerIds: firebase.firestore.FieldValue.arrayUnion(uid)
+    });
+  await firestore.collection("invites")
+    .doc(inviteId)
+    .delete();
+}
+

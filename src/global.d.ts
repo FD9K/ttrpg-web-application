@@ -9,10 +9,21 @@ export type UserInformation = {
   email: string;
   displayName: string;
   photoURL: string;
+  invites?: Invite[];
+}
+
+export type Invite = {
+  from: string;
+  to: string;
+  campaignId: string;
+  sentOn: Date;
+  accepted: boolean;
+  denied: boolean;
+  id: string;
 }
 
 export type Character = {
-  id?: string;
+  id: string;
   name: string;
   creationDate: Date;
   creatorId: string;
@@ -21,11 +32,12 @@ export type Character = {
 }
 
 export type Campaign = {
-  id?: string;
+  id: string;
   name?: string;
   creationDate: Date;
   concluded: boolean;
   creatorId: string;
   playerIds: string[];
+  characterIds?: string[];
   description?: string;
 }

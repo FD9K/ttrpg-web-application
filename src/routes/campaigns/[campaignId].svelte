@@ -13,7 +13,6 @@ let campaign: Campaign;
 let campaignId: string;
 let currentUser;
 let ownsCampaign: boolean = false;
-let inviteFormDeployed: boolean = false;
   
 onMount(async () => {
   campaignId = $page.params.campaignId;
@@ -23,10 +22,6 @@ onMount(async () => {
     ownsCampaign = true;
   }
 });
-
-function deployInviteForm() {
-  inviteFormDeployed = true;
-}
 
 </script>
 
@@ -41,13 +36,11 @@ function deployInviteForm() {
         <!-- either via email... or in app.. -->
         <!-- one requires an email implementation. The other requires that we be able to fuzzy search a user... damn. -->
         <div id="invite-users">
-          <button class="uk-button uk-button-default uk-button-small" on:click={deployInviteForm}>Invite Users</button>
+          <button uk-toggle="target: #invite-form-modal" class="uk-button uk-button-default uk-button-small" type="button">Invite Users</button>
         </div>
         {/if}
       </div>
     </div>
   </div>
-  {#if inviteFormDeployed}
-    <InviteFormModal campaign={campaign}/>
-  {/if}
+  <InviteFormModal campaign={campaign}/>
 {/if}
