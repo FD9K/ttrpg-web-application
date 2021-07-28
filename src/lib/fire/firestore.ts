@@ -218,3 +218,16 @@ export async function acceptInvite(inviteId: string): Promise<void> {
     .delete();
 }
 
+export async function getInvites(): Promise<any> {
+  const { currentUser } = auth;
+  const { uid } = currentUser;
+  const inviteDocuments = await firestore.collection("invites")
+    .where("to", "==", uid)
+    .get();
+  const invites = [];
+  inviteDocuments.forEach((invite) => {
+    invites.push(invite.data());
+  });
+  return invites;
+}
+

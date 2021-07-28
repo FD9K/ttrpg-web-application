@@ -2,22 +2,24 @@
 <!-- one user's personal page. Contains their active campaigns, their characters, etc. -->
 <script lang="ts">
 import { page } from "$app/stores";
-import { getUser, createCharacter, createCampaign } from "$lib/fire/firestore";
+import { getUser, createCharacter, createCampaign, getInvites, acceptInvite } from "$lib/fire/firestore";
 import { onMount } from "svelte";
 import { authStore } from "../../../stores";
 import CharacterCard from "../../../components/user/[userId]/character.svelte";
 import CampaignCard from "../../../components/user/[userId]/campaign.svelte";
+import type { Invite } from "src/global";
 
-let currentUser;
 let displayUser;
 let isUser: boolean = false;
 let isEditing = false;
 let characterIds: string[] = [];
 let campaignIds: string[] = [];
+let invites: Invite[];
 
 onMount(async () => {
   const { userId } = $page.params;
   const user = await getUser(userId);
+  invites = await getInvites();
   // display the user that has loaded from the page params. 
   displayUser = user;
   characterIds = user.characters;
@@ -26,7 +28,6 @@ onMount(async () => {
   if ($authStore.user.uid === userId) {
     isUser = true;
   } 
-  currentUser = $authStore.user;
 });
 
 
@@ -59,6 +60,14 @@ async function newCampaign() {
         <!-- <img src="{displayUser.photoURL}" alt="Your Profile" uk-img class="uk-border-circle uk-inline" /> -->
         <h3 class="uk-card-title">{displayUser.displayName || displayUser.email}</h3>
         {#if isUser}
+          {#if invites.length > 0}
+            {#each invites as invite} 
+              <div class="uk-card uk-card-body uk-card-default">
+                Bunch of mfing db operations... 
+                <button class="uk-button uk-button-primary" on:click={() => { acceptInvite(invite.id) }}>Accept Invitation</button>
+              </div>
+            {/each}
+          {/if}
           <button class="uk-button uk-button-primary uk-button-small" on:click={triggerEdit}>
             {#if isEditing}
               Save
