@@ -1,15 +1,6 @@
 <script lang="ts">
-import { onMount } from "svelte";
-import { getCharacter } from "$lib/fire/firestore";
 import type { Character } from "../../../global";
-export let characterId: string;
-let character: Character;
-$: character;
-
-onMount(async () => {
-  character = await getCharacter(characterId);
-});
-
+export let character;
 </script>
 
 <style>

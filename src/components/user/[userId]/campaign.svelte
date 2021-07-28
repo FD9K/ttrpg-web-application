@@ -1,19 +1,11 @@
 <script lang="ts">
-import { onMount } from "svelte";
-import { getCampaign } from "$lib/fire/firestore";
 import type { Campaign } from "../../../global";
 import { goto } from "$app/navigation";
-export let campaignId: string;
-let campaign: Campaign;
-$: campaign;
-
-onMount(async () => {
-  campaign = await getCampaign(campaignId);
-});
+export let campaign;
 
 // onclick - navigate to campaign.
 function openCampaign() {
-  goto(`/campaigns/${campaignId}`);
+  goto(`/campaigns/${campaign.id}`);
 }
 
 </script>

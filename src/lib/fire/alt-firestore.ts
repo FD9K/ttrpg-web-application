@@ -1,9 +1,10 @@
 
-import { firestore } from "./config";
+import { auth, firestore } from "./config";
 import type fb from "firebase";
 import firebase from "firebase";
 import type { UserInformation, Character, Campaign, Invite } from "../../global";
 import { v4 } from "uuid";
+const { currentUser } = auth;
 
 type Query = {
   field: string;
@@ -56,6 +57,7 @@ export async function readMany(options: DatabaseOptions): Promise<Object[]> {
     response.forEach((document) => {
       records.push(document.data());
     });
+    return records;
   } catch (error) {
     return error;
   }
