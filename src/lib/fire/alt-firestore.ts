@@ -1,18 +1,19 @@
 
 import { firestore } from "./config";
-import type firebase from "firebase";
+import type fb from "firebase";
+import firebase from "firebase";
 import type { UserInformation, Character, Campaign, Invite } from "../../global";
 import { v4 } from "uuid";
 
 type Query = {
   field: string;
-  operator: firebase.firestore.WhereFilterOp;
+  operator: fb.firestore.WhereFilterOp;
   value: string;
 };
 
 type OrderBy = {
   field: string;
-  direction: firebase.firestore.OrderByDirection;
+  direction: fb.firestore.OrderByDirection;
 }
 
 type UpdateFields = {
@@ -25,6 +26,11 @@ type DatabaseOptions = {
   queries?: Query[];
   orderBy?: OrderBy;
   updateData?: UpdateFields;
+  updateArrayData?: {
+    field: string;
+    value: any;
+    operation: string;
+  }
   writeData?: UserInformation[] | Character[] | Campaign[] | Invite[];
 }
 
@@ -141,6 +147,29 @@ export async function deleteOne(options: DatabaseOptions) {
     await firestore.collection(collection)
       .doc(id)
       .delete();
+  } catch (error) {
+    return error;
+  }
+}
+
+// a lot of our relational stuff requires this kind of operation.
+export async function updateArray(options: DatabaseOptions) {
+  const { id, collection, updateArrayData } = options;
+  try {
+    const { field, value, operation } = updateArrayData;
+    if (operation === "push") {
+      await firestore.collection(collection)
+        .doc(id)
+        .update({
+          [field]: firebase.firestore.FieldValue.arrayUnion(value)
+        });
+    } else if (operation === "del") {
+      await firestore.collection(collection)
+        .doc(id)
+        .update({
+          [field]: firebase.firestore.FieldValue.arrayRemove(value)
+        });
+    }
   } catch (error) {
     return error;
   }
