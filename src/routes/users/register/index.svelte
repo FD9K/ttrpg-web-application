@@ -1,6 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import { register } from "$lib/fire/auth";
+  import { createUser } from "$lib/fire/firestore";
   import { authStore } from "../../../stores";
 
   let password;
@@ -21,7 +22,10 @@
         password,
         email
       });
-      goto("/");
+      // add the user to firebase.
+      await createUser();
+      // redirect to user profile page instead of homepage.
+      goto(`/users/${user.uid}`);
     }
   }
 </script>
