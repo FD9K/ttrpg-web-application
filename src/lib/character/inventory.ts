@@ -18,6 +18,7 @@ export default class Inventory {
 
   items: Item[] = [];
   maxCapacity = 16;
+  currentCapacity = this.calculateCapacity(this.items);
 
   addItem(item: Item): void {
     const currentCapacity = this.calculateCapacity(this.items);

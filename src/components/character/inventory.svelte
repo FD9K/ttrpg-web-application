@@ -1,57 +1,75 @@
 <script lang="ts">
-  import Inventory from "$lib/character/inventory";
+import Inventory from "$lib/character/inventory";
+import { onMount } from "svelte";
 
-  let itemName;
-  let itemWeight;
+let inventory: Inventory;
+let inventoryItems = [];
+function createInventory(): void {
+  inventory = new Inventory();
+}
 
-  let inventory: Inventory;
-  function createInventory(): void {
-    inventory = new Inventory();
-  }
+//   const weights = [
+//     {amount: 0, name: "tiny"},
+//     {amount: 1, name: "small"},
+//     {amount: 2, name: "medium"},
+//     {amount: 4, name: "large"},
+//     {amount: 8, name: "huge"},
+//     {amount: 16, name: "gargantuan"},
+// ];
 
-  const weights = [
-    {amount: 0, name: "tiny"},
-    {amount: 1, name: "small"},
-    {amount: 2, name: "medium"},
-    {amount: 4, name: "large"},
-    {amount: 8, name: "huge"},
-    {amount: 16, name: "gargantuan"},
+const testItems = [
+  { size: 0, name: "A button", id: "1" },
+  { size: 1, name: "A wand", id: "2" },
+  { size: 2, name: "A shortsword", id: "3" },
+  { size: 4, name: "A greataxe", id: "4" },
+  { size: 8, name: "An injured comrade", id: "5" },
+  { size: 16, name: "An anvil", id: "6" },
 ];
 
-function createItem() {
+function addItem(item) {
   try {
-    const addItem: any = inventory.addItem({
-      name: itemName,
-      size: itemWeight,
-      id: "12345"
+    const { name, size, id } = item;
+    inventory.addItem({
+      name,
+      size,
+      id
     });
+    inventoryItems = [...inventory.items];
+    console.log(inventoryItems);
   } catch(error) {
     alert(error);
   }
 }
 
+onMount(() => {
+  createInventory();
+});
+
 </script>
 
-<button on:click={createInventory} class="uk-button uk-margin">Create Inventory</button>
+<style>
+  #inventory-tab {
+    width: 25%;
+    border: 1px black solid;
+    margin: 1rem;
+  }
 
-<div class="uk-card uk-card-body uk-card-default uk-margin uk-padding">
-  <h3 class="uk-card-title">Inventory</h3>
-  <!-- backpack ux to follow later. -->
+  
+</style>  
+
+{#if inventory}
+<div id="inventory-tab">
+  <h1>inventory</h1>
+  {#each inventoryItems as item}
+    <p class="inventory-item">{item.name}</p>
+  {/each}
 </div>
+{/if}
 
-<div class="uk-card uk-card-body uk-card-default uk-margin uk-padding">
-  <h3 class="uk-card-title">Item Adder</h3>
-  <!-- backpack ux to follow later. -->
-  <div class="uk-margin">
-    <input type="text" name="item name" id="item-name" class="uk-input" bind:value={itemName}/>
-  </div>
-
-  <div class="uk-margin">
-    <select name="weight" id="item-weight" class="uk-select" bind:value={itemWeight}>
-      {#each weights as weight}
-      <option value="{weight.amount}">{weight.name}</option>
-      {/each}
-    </select>
-  </div>
-  <button on:click={createItem}>Create Item</button>
+<div id="choices">
+  <ul>
+    {#each testItems as item} 
+      <button on:click={() => { addItem(item) }}>{item.name}</button>
+    {/each}
+  </ul>
 </div>
