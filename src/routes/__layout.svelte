@@ -1,6 +1,6 @@
 
 <script lang="ts" context="module">
-  import { auth } from "$lib/fire/config";
+  import { auth } from "$lib/firebase/config";
   import { authStore } from "../stores";
   
   auth.onAuthStateChanged((user) => {

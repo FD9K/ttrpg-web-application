@@ -1,5 +1,5 @@
 <script lang="ts">
-import { searchUsers, inviteUser } from "$lib/fire/firestore";
+import { searchUsers, inviteUser } from "$lib/firebase/firestore";
 import type { Campaign, UserInformation } from "../../../global";
 export let campaign: Campaign;
 

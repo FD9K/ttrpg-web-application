@@ -17,7 +17,7 @@ function openCampaign() {
 </style>
 
 {#if campaign}
-<div class="uk-container">
+<div class="uk-container uk-margin">
   <div class="uk-card uk-card-default uk-card-body uk-card-hover" on:click={openCampaign}>
     <h5>
       {#if campaign.name}

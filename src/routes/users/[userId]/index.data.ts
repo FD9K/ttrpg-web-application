@@ -1,8 +1,7 @@
 // get user, characters for user, invites for user, campaigns for user.
-import { readOne, readMany } from "$lib/fire/alt-firestore";
+import { readOne, readMany } from "$lib/firebase/alt-firestore";
 
 export async function get(request) {
-  console.log("i did get hit.");
   const { params } = request;
   const { userId } = params;
 
@@ -10,7 +9,6 @@ export async function get(request) {
     collection: "users",
     id: userId
   });
-  console.log(user);
 
   const campaigns = await readMany({
     collection: "campaigns",
@@ -20,7 +18,6 @@ export async function get(request) {
       value: userId
     }]
   });
-  console.log(campaigns)
 
   const characters = await readMany({
     collection: "characters",
@@ -39,6 +36,8 @@ export async function get(request) {
       value: userId
     }]
   });
+
+  console.log({ invites });
 
   return {
     body: {

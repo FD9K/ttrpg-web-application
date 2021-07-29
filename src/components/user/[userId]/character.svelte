@@ -1,6 +1,12 @@
 <script lang="ts">
+import { goto } from "$app/navigation";
+
 import type { Character } from "../../../global";
 export let character;
+
+function openCharacter() {
+  goto(`/users/${character.ownerId}/characters/${character.id}`);
+}
 </script>
 
 <style>
@@ -10,7 +16,7 @@ export let character;
 </style>
 
 {#if character}
-<div class="uk-container">
+<div class="uk-container uk-margin" on:click={openCharacter}>
   <div class="uk-card uk-card-default uk-card-body uk-card-hover">
     <h5>
       {#if character.name}

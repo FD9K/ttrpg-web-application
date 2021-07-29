@@ -22,7 +22,7 @@ export async function load({ page, fetch, session, context }) {
 </script>
 
 <script lang="ts">
-import { createCharacter, createCampaign, acceptInvite } from "$lib/fire/firestore";
+import { createCharacter, createCampaign, acceptInvite } from "$lib/firebase/firestore";
 import CharacterCard from "../../../components/user/[userId]/character.svelte";
 import CampaignCard from "../../../components/user/[userId]/campaign.svelte";
 import { authStore } from "../../../stores";
@@ -30,7 +30,7 @@ import { authStore } from "../../../stores";
 export let user;
 export let characters;
 export let campaigns;
-export let invites;
+export let invites: any[];
 
 console.log($authStore.user);
 let isUser: boolean = (user.uid === $authStore.user?.uid);
@@ -59,17 +59,16 @@ async function newCampaign() {
 
 {#if user} 
 <div>
-  <div class="uk-section uk-section-muted">
-    <div class="uk-container">
+  <div class="uk-section">
+    <div class="uk-container uk-margin">
       <div id="profile-data" class="uk-card uk-card-default uk-card-body uk-card-large">
         <!-- <img src="{displayUser.photoURL}" alt="Your Profile" uk-img class="uk-border-circle uk-inline" /> -->
         <h3 class="uk-card-title">{user.displayName || user.email}</h3>
         {#if isUser}
           {#if invites.length > 0}
             {#each invites as invite} 
-              <div class="uk-card uk-card-body uk-card-default">
-                Bunch of mfing db operations... 
-                <button class="uk-button uk-button-primary" on:click={() => { console.log("ayup") }}>Accept Invitation</button>
+              <div class="uk-card uk-card-body uk-card-default uk-margin">
+                { invite.id }
               </div>
             {/each}
           {/if}
@@ -91,9 +90,7 @@ async function newCampaign() {
         {/if}
       </div>
     </div>
-  </div>
-  <div class="uk-section uk-section-muted">
-    <div class="uk-container">
+    <div class="uk-container uk-margin">
       <div id="characters" class="uk-card uk-card-default uk-card-body uk-card-large">
         <h3 class="uk-card-title">Characters</h3>
         {#if isUser}
@@ -113,8 +110,6 @@ async function newCampaign() {
         {/if}
       </div>
     </div>
-  </div>
-  <div class="uk-section uk-section-muted">
     <div class="uk-container">
       <div class="uk-card uk-card-default uk-card-body uk-card-large">
         <h5 class="uk-card-title">Campaigns</h5>

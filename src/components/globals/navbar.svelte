@@ -1,5 +1,5 @@
 <script>
-  import { logout } from "$lib/fire/auth";
+  import { logout } from "$lib/firebase/auth";
   // we actually need to work with the app state here to figure things out...
   import { authStore } from "../../stores";
   // pretty simple, huh.

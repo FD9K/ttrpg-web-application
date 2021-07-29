@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { authStore } from "../../../stores";
-  import { login } from "$lib/fire/auth";
+  import { login } from "$lib/firebase/auth";
 
   let password: string = "";
   let email: string = "";

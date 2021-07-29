@@ -37,18 +37,18 @@ type DatabaseOptions = {
 
 export async function readMany(options: DatabaseOptions): Promise<Object[]> {
   const { collection, queries, orderBy } = options;
-  const collectionReference = firestore.collection(collection);
+  let collectionReference:any = firestore.collection(collection);
 
   if (queries) {
     queries.forEach((query) => {
       const { field, operator, value } = query;
-      collectionReference.where(field, operator, value);
+      collectionReference = collectionReference.where(field, operator, value);
     });
   }
   
   if (orderBy) {
     const { field, direction } = orderBy;
-    collectionReference.orderBy(field, direction);
+    collectionReference = collectionReference.orderBy(field, direction);
   }
 
   try {
