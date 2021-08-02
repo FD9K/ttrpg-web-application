@@ -1,7 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
-  import { register } from "$lib/fire/auth";
-  import { createUser } from "$lib/fire/firestore";
+  import { register } from "$lib/firebase/auth";
+  import { createUser } from "$lib/firebase/firestore";
   import { authStore } from "../../../stores";
 
   let password;

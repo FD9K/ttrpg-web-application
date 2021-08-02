@@ -1,27 +1,33 @@
 
+<script lang="ts" context="module">
+export async function load({ page, fetch }) {
+  const { params } = page;
+  const { campaignId } = params;
+  const url: string = `/campaigns/${campaignId}.json`;
+  const response: Response = await fetch(url);
 
+  if (response.ok) {
+    const data = await response.json();
+    const { campaign } = data;
+    return {
+      props: {
+        campaign
+      }
+    }
+  }
+
+  return {
+    error: new Error(`Could not fetch ${url}.`)
+  }
+}
+</script>
 <!-- load up details about the party and manage access. -->
 <script lang="ts">
-import { page } from "$app/stores";
-import type { Campaign } from "../../global";
-import { getCampaign } from "$lib/fire/firestore";
-import { onMount } from "svelte";
 import { authStore } from "../../stores";
 import InviteFormModal from "../../components/campaigns/[campaignId]/inviteFormModal.svelte";
 
-let campaign: Campaign;
-let campaignId: string;
-let currentUser;
+export let campaign;
 let ownsCampaign: boolean = false;
-  
-onMount(async () => {
-  campaignId = $page.params.campaignId;
-  campaign = await getCampaign(campaignId);
-  currentUser = $authStore.user;
-  if (campaign.creatorId === currentUser.uid) {
-    ownsCampaign = true;
-  }
-});
 
 </script>
 

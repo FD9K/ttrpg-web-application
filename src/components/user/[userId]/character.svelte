@@ -1,15 +1,12 @@
 <script lang="ts">
-import { onMount } from "svelte";
-import { getCharacter } from "$lib/fire/firestore";
+import { goto } from "$app/navigation";
+
 import type { Character } from "../../../global";
-export let characterId: string;
-let character: Character;
-$: character;
+export let character;
 
-onMount(async () => {
-  character = await getCharacter(characterId);
-});
-
+function openCharacter() {
+  goto(`/users/${character.ownerId}/characters/${character.id}`);
+}
 </script>
 
 <style>
@@ -19,7 +16,7 @@ onMount(async () => {
 </style>
 
 {#if character}
-<div class="uk-container">
+<div class="uk-container uk-margin" on:click={openCharacter}>
   <div class="uk-card uk-card-default uk-card-body uk-card-hover">
     <h5>
       {#if character.name}
