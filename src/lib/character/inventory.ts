@@ -12,14 +12,15 @@ export default class Inventory {
         throw new Error("Cannot create initialize inventory with more carrying capacity than the default max inventory size.")
       } else {
         this.items = props.items;
+        this.currentCapacity = this.calculateCapacity(props.items);
       }
     }
   }
 
   items: Item[] = [];
   maxCapacity = 16;
-  currentCapacity = this.calculateCapacity(this.items);
-
+  currentCapacity;
+  
   addItem(item: Item): void {
     const currentCapacity = this.calculateCapacity(this.items);
     const { size } = item;

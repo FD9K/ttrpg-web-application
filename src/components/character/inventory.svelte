@@ -60,6 +60,7 @@ onMount(() => {
 {#if inventory}
 <div id="inventory-tab">
   <h1>inventory</h1>
+  {inventory.currentCapacity}/{inventory.maxCapacity}
   {#each inventoryItems as item}
     <p class="inventory-item">{item.name}</p>
   {/each}

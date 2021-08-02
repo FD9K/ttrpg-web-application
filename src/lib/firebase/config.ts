@@ -13,18 +13,6 @@ let firebaseConfig: any = {
   measurementId: env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-if (env.VITE_STYLE === 'locadl') {
-  firebaseConfig = {
-    databaseURL: 'http://localhost:9000?ns=emulatorui',
-    projectId: "ttrpg-db",
-    apiKey: "",
-    authDomain: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: "",
-    measurementId: "",
-  }
-}
 // Initialize Firebase
 firebase.apps.length !== 0 ? firebase.app() : firebase.initializeApp(firebaseConfig);
 
