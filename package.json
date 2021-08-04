@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "svelte-kit dev",
-    "build": "yarn build:tailwind && svelte-kit build",
+    "build": "npm run build:tailwind && svelte-kit build",
     "build:tailwind": "postcss ./src/assets/css/tailwind.css -o src/assets/css/tailwindoutput.css",
     "preview": "svelte-kit preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
