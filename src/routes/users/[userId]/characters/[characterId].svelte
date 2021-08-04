@@ -1,6 +1,6 @@
 <script lang="ts">
   import Inventory from "../../../../components/tyler-ttrpg/inventory.svelte";
+  import Runepouch from "../../../../components/tyler-ttrpg/runepouch.svelte";
 </script>
 
-<Inventory /> 
-<div class="shadow-sm"></div>
+<Runepouch />
