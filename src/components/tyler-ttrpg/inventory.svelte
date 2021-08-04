@@ -1,5 +1,5 @@
 <script lang="ts">
-import Inventory from "$lib/character/inventory";
+import Inventory from "$lib/tyler-ttrpg/character/inventory";
 import { onMount } from "svelte";
 
 let inventory: Inventory;
