@@ -1,5 +1,6 @@
 
 <script lang="ts" context="module">
+  import "../assets/css/tailwindoutput.css";
   import { auth } from "$lib/firebase/config";
   import { authStore } from "../stores";
   
