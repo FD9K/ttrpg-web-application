@@ -1,6 +1,7 @@
 
 <script lang="ts">
   import Runepouch from "$lib/tyler-ttrpg/character/runepouch";
+  export let rune;
   const pouch = new Runepouch({});
   let slots = [];
   pouch.slot({
@@ -11,12 +12,33 @@
   slots = pouch.slots;
 
   function addRunes() {
-    pouch.fillSlots([{
-      runeName: "water",
-      quantity: 100,
-      type: "elemental"
-    }]);
-    slots = pouch.slots;
+    try {
+      pouch.fillSlots([{
+        runeName: "water",
+        quantity: 100,
+        type: "elemental"
+      }]);
+      slots = pouch.slots;
+    } catch(error) {
+      alert(error);
+    }
+  }
+
+  $: {
+    if (rune) {
+      try {
+        pouch.fillSlots([{
+          runeName: rune.runeName,
+          quantity: rune.quantity,
+          type: rune.type,
+        }]);
+      
+      slots = pouch.slots;
+      rune = null;
+      } catch(error) {
+        alert(error);
+      }
+    }
   }
 </script>
 
@@ -39,8 +61,5 @@
       </div>
       <hr />
     {/each}
-  </div>
-  <div>
-    <button class="p-2 text-sm text-gray-600 border-gray-500 border rounded-md m-3 hover:bg-gray-100" on:click={addRunes}>Add Runes</button>
   </div>
 </div>

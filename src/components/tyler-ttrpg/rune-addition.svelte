@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+
   const runes = [
     { runeName: "air",
       type: "elemental",
@@ -69,7 +72,17 @@
     { runeName: "astral",
       type: "legendaryCatalyst",
     }
-  ]
+  ];
+
+  let selectedRune = null;
+  let quantity; 
+  function selectRune(rune) {
+    selectedRune = rune;
+  }
+
+  function emitRuneSelection() {
+    dispatch('runeSelected', { ...selectedRune, quantity });
+  }
 
 </script>
 
@@ -77,10 +90,22 @@
   <div class="bg-purple-500 p-2">
     <p class="text-lg font-bold text-gray-100 pl-2">Add Runes</p>
   </div>
-  <div class="flex justify-center items-center p-2 m-1 uppercase font-bold text-xm">
-    <p>Rune Selected: ⭐︁</p>
-    <div class="flex justify-center items-center flex-wrap">
+  <div>
+    <div class="flex flex-wrap items-center justify-center mt-4">
       <!-- card? -->
+      {#each runes as rune}
+      <div class="shadow-md p-4 m-4 w-24 uppercase rounded cursor-pointer hover:shadow-xl border border-gray-200 text-center" on:click={() => { selectRune(rune) }}>
+        {rune.runeName}
+      </div>
+      {/each}
     </div>
+    {#if selectedRune}
+    <hr />
+    <div class="p-2 uppercase font-bold text-lg bg-purple-500 text-gray-100">
+      Selection: {selectedRune.runeName}
+      <input type="number" class="p-2 m-2 text-lg border border-gray-100 rounded block text-gray-800" placeholder="Quantity to Add" bind:value={quantity}/>
+      <button class="p-2 m-2 text-lg border border-gray-100 rounded" on:click={emitRuneSelection}>Add Runes</button>
+    </div>
+    {/if}
   </div>
 </div>

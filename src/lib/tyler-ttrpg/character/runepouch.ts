@@ -56,6 +56,10 @@ export default class Runepouch {
         // 1. update currentCapacities
         // 2. fill slots. 
         this.slot(runeslot);
+      } else if (!canCarryAmount) {
+        throw new Error("You can't carry that many of that type of rune!");
+      } else {
+        throw new Error("You can't carry more than three types of runes! that would be volatile.")
       }
     });
   }
