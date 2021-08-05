@@ -55,6 +55,11 @@ export default class Runepouch {
       if (canCarryAmount && canCarryRune) {
         // 1. update currentCapacities
         // 2. fill slots. 
+        this.slot(runeslot);
+      } else if (!canCarryAmount) {
+        throw new Error("You can't carry that many of that type of rune!");
+      } else {
+        throw new Error("You can't carry more than three types of runes! that would be volatile.")
       }
     });
   }
@@ -89,13 +94,15 @@ export default class Runepouch {
   }
 
   // adds some rune 
+  // don't call this externally.... it lacks quantity checks. 
   slot(runeslot: Runeslot): void {
     const { runeName, quantity, type } = runeslot;
     const existingSlot: Runeslot = this.slots.find((slot: Runeslot) => slot.runeName === runeName);
     if (existingSlot) {
       existingSlot.quantity += quantity;
     } else {
-      this.slots.push(runeslot);
+      // this.slots.push(runeslot);
+      this.slots = [...this.slots, runeslot];
     }
     // modify capacities after addition.
     this.currentCapacities[type] += quantity;
