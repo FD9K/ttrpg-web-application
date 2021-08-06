@@ -87,21 +87,24 @@
 </script>
 
 <div class="shadow-md m-2 rounded-lg border border-gray-600 overflow-hidden">
-  <div class="bg-purple-500 p-2">
-    <p class="text-lg font-bold text-gray-100 pl-2">Add Runes</p>
+  <div class="bg-gray-600 p-2">
+    <p class="text-lg font-bold text-yellow-500 pl-2">Add Runes</p>
   </div>
   <div>
     <div class="flex flex-wrap items-center justify-center mt-4">
-      <!-- card? -->
+      <select name="runeSelection" id="runeSelection" bind:value={selectedRune} class="p-3 px-6 rounded m-4 w-1/3">
       {#each runes as rune}
-      <div class="shadow-md p-4 m-4 w-24 uppercase rounded cursor-pointer hover:shadow-xl border border-gray-200 text-center" on:click={() => { selectRune(rune) }}>
+      <option value={rune}>
         {rune.runeName}
-      </div>
+      </option>
       {/each}
+      </select>
+      
+
     </div>
     {#if selectedRune}
     <hr />
-    <div class="p-2 uppercase font-bold text-lg bg-purple-500 text-gray-100">
+    <div class="p-2 uppercase font-bold text-lg bg-gray-600 text-gray-100">
       Selection: {selectedRune.runeName}
       <input type="number" class="p-2 m-2 text-lg border border-gray-100 rounded block text-gray-800" placeholder="Quantity to Add" bind:value={quantity}/>
       <button class="p-2 m-2 text-lg border border-gray-100 rounded" on:click={emitRuneSelection}>Add Runes</button>

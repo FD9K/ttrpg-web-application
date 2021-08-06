@@ -21,9 +21,9 @@
 
 <style></style>
 
-<nav class="p-3 bg-gray-600 text-gray-200 flex">
+<nav class="p-3 bg-gray-600 text-gray-200 flex shadow-xl border-b border-gray-700">
   <p class="text-md uppercase font-bold p-3">TTRPG</p>
-  <a href="/users" class="p-3 font-bold uppercase text-md text-yellow-500 hover:bg-gray-500 rounded-xl">Profile</a>
+  <a href="/users/{$authStore?.user?.uid || ''}" class="p-3 font-bold uppercase text-md text-yellow-500 hover:bg-gray-500 rounded-xl">Profile</a>
   <a href="/characters" class="p-3 font-bold uppercase text-md text-yellow-500 hover:bg-gray-500 rounded-xl">Characters</a>
   <a href="/campaigns" class="p-3 font-bold uppercase text-md text-yellow-500 hover:bg-gray-500 rounded-xl">Campaigns</a>
   {#if !$authStore.isLoggedIn}

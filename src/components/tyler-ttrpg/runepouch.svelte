@@ -42,12 +42,12 @@
   }
 </script>
 
-<div class="shadow-md m-2 rounded-lg border border-gray-600 overflow-hidden">
-  <div class="bg-purple-500 p-2">
-    <p class="text-lg font-bold text-gray-100 pl-2">Runepouch</p>
+<div class="shadow-md m-2 rounded-lg border overflow-hidden">
+  <div class="bg-gray-600 p-2 border border-gray-700">
+    <p class="text-lg font-bold text-yellow-500 pl-2">Runepouch</p>
   </div>
-  <div>
-    <div class="flex justify-center items-center p-2 m-1 uppercase font-bold text-xs">
+  <div class="border border-gray-300">
+    <div class="flex justify-center items-center p-2 uppercase font-bold text-xs">
       <div class="flex-1">Rune</div>
       <div class="flex-1">Quantity</div>
       <div class="flex-1">Type</div>
