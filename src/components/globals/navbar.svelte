@@ -21,22 +21,15 @@
 
 <style></style>
 
-<nav>
-<button class="bg-gray-100 p-1 px-5 m-2 hover:bg-blue-100 rounded" on:click={handleMenuOpening}>Menu</button>
-{#if !$authStore.isLoggedIn}
-  <button class="bg-blue-200 p-1 px-5 m-2 hover:bg-blue-300 rounded">Create an Account</button>
-  <a href="/users/login">Login</a>
-{/if}
+<nav class="p-3 bg-gray-600 text-gray-200 flex shadow-xl border-b border-gray-700">
+  <p class="text-md uppercase font-bold p-3">TTRPG</p>
+  <a href="/users/{$authStore?.user?.uid || ''}" class="p-3 font-bold uppercase text-md text-yellow-500 hover:bg-gray-500 rounded-xl">Profile</a>
+  <a href="/characters" class="p-3 font-bold uppercase text-md text-yellow-500 hover:bg-gray-500 rounded-xl">Characters</a>
+  <a href="/campaigns" class="p-3 font-bold uppercase text-md text-yellow-500 hover:bg-gray-500 rounded-xl">Campaigns</a>
+  {#if !$authStore.isLoggedIn}
+    <button class="p-3 font-bold uppercase text-md text-yellow-500 hover:bg-gray-500 rounded-xl">Create an Account</button>
+    <a href="/users/login" class="p-3 font-bold uppercase text-md text-yellow-500 hover:bg-gray-500 rounded-xl">Login</a>
+  {:else}
+    <button class="p-3 font-bold uppercase text-md text-yellow-500 hover:bg-gray-500 rounded-xl" on:click={logOut}>Log Out</button>
+  {/if}
 </nav>
-
-{#if menuOpen}
-
-<div id="menu-modal-wrapper" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-  <div id="menu-modal" class="flex items-end justify-center min-h-screet pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-      <div class="inline-block align-botton bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"></div>
-  </div>
-</div>
-
-{/if}

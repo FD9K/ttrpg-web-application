@@ -36,5 +36,7 @@
 
 <style></style>
 
+<div class="bg-gray-200 h-screen">
 <Nav />
 <slot></slot>
+</div>

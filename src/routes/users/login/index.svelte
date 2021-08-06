@@ -25,17 +25,15 @@
 <style>
 </style>
 
-<div id="login-background">
-  <div class="uk-card uk-card-large uk-width-1-2 uk-card-body">
-    <fieldset class="uk-fieldset">
-      <legend class="uk-legend">Log In to TTRPG</legend>
-    </fieldset>
-    <div class="uk-margin">
-      <input type="text" class="uk-input" placeholder="Email" id="email" name="email" bind:value={email} />
+<div class="m-12 flex justify-center">
+  <div class="m-12 shadow border boder-gray-50 rounded overflow-hidden w-3/4">
+    <div class="p-3 bg-gray-600 text-yellow-500">
+      <p class="text-lg uppercase text-center font-bold">Log In To TTRPG</p>
     </div>
-    <div class="uk-margin">
-      <input type="password" name="password" id="password" class="uk-input" placeholder="Password" bind:value={password} />
+    <div class="p-4 bg-gray-50 flex justify-center items-center flex-wrap">
+      <input type="text" class="block m-4 p-4 w-3/4 text-gray-700 border border-gray-100 outline-none" placeholder="Email" id="email" name="email" bind:value={email} />
+      <input type="password" class="block m-4 p-4 w-3/4 text-gray-700 border border-gray-100 outline-none" name="password" id="password" placeholder="Password" bind:value={password} />
+      <button class="m-4 p-4 px-6 bg-gray-600 text-yellow-500 rounded hover:bg-gray-500" on:click={loginUser}>Log In</button>
     </div>
-    <button class="uk-button uk-button-default" on:click={loginUser}>Log In</button>
   </div>
 </div>
