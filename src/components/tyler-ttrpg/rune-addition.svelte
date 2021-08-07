@@ -99,16 +99,10 @@
       </option>
       {/each}
       </select>
-      
-
+      {#if selectedRune}
+        <input type="number" class="p-2 m-2 text-lg border border-gray-100 rounded block text-gray-800" placeholder="Quantity to Add" bind:value={quantity}/>
+        <button class="p-2 m-2 text-lg border border-gray-100 rounded" on:click={emitRuneSelection}>Add Runes</button>
+      {/if}
     </div>
-    {#if selectedRune}
-    <hr />
-    <div class="p-2 uppercase font-bold text-lg bg-gray-600 text-gray-100">
-      Selection: {selectedRune.runeName}
-      <input type="number" class="p-2 m-2 text-lg border border-gray-100 rounded block text-gray-800" placeholder="Quantity to Add" bind:value={quantity}/>
-      <button class="p-2 m-2 text-lg border border-gray-100 rounded" on:click={emitRuneSelection}>Add Runes</button>
-    </div>
-    {/if}
   </div>
 </div>
